@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WARNING - SECURITY ALERT</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0a;
+    color: #ff2020;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
+    pointer-events: none;
+    z-index: 100;
+  }
+  .skull {
+    font-size: 5rem;
+    animation: pulse 1s infinite;
+    margin-bottom: 1rem;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.95); }
+  }
+  h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 6vw, 4rem);
+    letter-spacing: 6px;
+    text-align: center;
+    color: #ff2020;
+    text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
+    margin-bottom: 0.5rem;
+    animation: flicker 3s infinite;
+  }
+  @keyframes flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.4; }
+    97% { opacity: 1; }
+    98% { opacity: 0.2; }
+  }
+  .warning-box {
+    border: 2px solid #ff2020;
+    padding: 2rem;
+    max-width: 700px;
+    width: 100%;
+    margin: 1.5rem 0;
+    position: relative;
+    background: rgba(255, 0, 0, 0.04);
+  }
+  .warning-box::before {
+    content: '⚠ SECURITY BREACH DETECTED ⚠';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0a0a0a;
+    padding: 0 1rem;
+    font-size: 0.75rem;
+    color: #ff2020;
+    white-space: nowrap;
+    letter-spacing: 3px;
+  }
+  .log-entry {
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    color: #ff4444;
+    margin: 0.6rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .log-entry::before { content: '▶'; position: absolute; left: 0; color: #ff2020; }
+  .log-entry span { color: #ff8080; }
+  .counter {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #ff2020;
+    text-align: center;
+    margin: 1rem 0;
+    font-weight: bold;
+    text-shadow: 0 0 15px #ff0000;
+  }
+  .reveal-box {
+    border: 2px solid #00ff88;
+    padding: 2rem;
+    max-width: 700px;
+    width: 100%;
+    margin-top: 2rem;
+    background: rgba(0, 255, 136, 0.04);
+    display: none;
+    position: relative;
+  }
+  .reveal-box::before {
+    content: '— AWARENESS MESSAGE —';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0a0a0a;
+    padding: 0 1rem;
+    font-size: 0.75rem;
+    color: #00ff88;
+    letter-spacing: 3px;
+    white-space: nowrap;
+  }
+  .reveal-box h2 {
+    font-family: 'Bebas Neue', cursive;
+    color: #00ff88;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px #00ff88;
+  }
+  .reveal-box p {
+    color: #aaffcc;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    line-height: 1.8;
+    margin-bottom: 0.8rem;
+  }
+  .reveal-box p strong { color: #00ff88; }
+  .threat-list {
+    list-style: none;
+    margin: 1rem 0;
+  }
+  .threat-list li {
+    color: #aaffcc;
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .threat-list li::before { content: '✗'; position: absolute; left: 0; color: #ff4444; }
+  .creator-tag {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 255, 136, 0.3);
+    font-size: 0.75rem;
+    color: #44aa77;
+    letter-spacing: 2px;
+  }
+  .creator-tag strong { color: #00ff88; }
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #1a0000;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #ff2020;
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px #ff0000;
+  }
+  .status-text {
+    font-size: 0.7rem;
+    color: #ff6666;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0.3rem 0;
+  }
+  @keyframes typeIn {
+    from { opacity: 0; transform: translateX(-5px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .log-entry { animation: typeIn 0.3s ease forwards; opacity: 0; }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<div class="skull">☠</div>
+<h1>MALWARE INSTALLED</h1>
+<p style="font-size:0.75rem; letter-spacing:4px; color:#ff6666; margin-bottom:1rem;">SYSTEM COMPROMISED — INITIATING PAYLOAD</p>
+
+<div class="warning-box" id="warningBox">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="status-text" id="statusText">SCANNING SYSTEM...</div>
+
+  <div id="logContainer"></div>
+
+  <div class="counter" id="counter" style="display:none;">
+    FILES ENCRYPTED: <span id="fileCount">0</span>
+  </div>
+</div>
+
+<div class="reveal-box" id="revealBox">
+  <h2>⚠ THIS WAS AN AWARENESS DEMO</h2>
+  <p>Nothing actually happened to your device. <strong>But on a real piracy website, this could have been completely real.</strong></p>
+
+  <p>When you download from illegal movie/piracy sites, the file you get is often <strong>not a movie at all</strong>. Here's what attackers actually bundle:</p>
+
+  <ul class="threat-list">
+    <li><strong>RAT (Remote Access Trojan)</strong> — gives a hacker full control of your computer silently</li>
+    <li><strong>Keylogger</strong> — records every keystroke including your passwords, card numbers, OTPs</li>
+    <li><strong>Ransomware</strong> — encrypts all your files and demands money to unlock them</li>
+    <li><strong>Cryptominer</strong> — silently uses your CPU/GPU to mine crypto for the attacker 24/7</li>
+    <li><strong>Spyware</strong> — accesses your webcam, mic, and browsing history without you knowing</li>
+    <li><strong>Adware/Stealers</strong> — steals saved browser passwords and session cookies</li>
+  </ul>
+
+  <p>The file in this demo was named <strong>Pushpa2.Full.Movie.1080p.FREE.exe</strong> — a classic social engineering tactic. Real malware uses the exact same naming strategy to trick you.</p>
+
+  <p><strong>Stay safe:</strong> Use legal streaming platforms. No free movie is worth losing your bank account, personal data, or entire device.</p>
+
+  <div class="creator-tag">
+    CREATED BY <strong>SWARAJ GHARAT</strong> &nbsp;|&nbsp; CYBERSECURITY AWARENESS PROJECT &nbsp;|&nbsp; NOT REAL MALWARE
+  </div>
+</div>
+
+<script>
+const logs = [
+  { delay: 300,  text: 'Scanning file system...', detail: '<span>C:\\Users\\</span> — 47,832 files indexed' },
+  { delay: 1200, text: 'Keylogger module loaded', detail: 'Hooking <span>keyboard events</span> — active' },
+  { delay: 2100, text: 'Browser data extraction', detail: 'Chrome passwords: <span>found (143 entries)</span>' },
+  { delay: 2900, text: 'Webcam access requested', detail: 'Camera device: <span>HP HD Camera — enabled</span>' },
+  { delay: 3700, text: 'Network exfiltration', detail: 'Connecting to <span>185.220.101.47</span> [C2 server]' },
+  { delay: 4500, text: 'Ransomware payload staging', detail: 'AES-256 encryption keys <span>generated</span>' },
+  { delay: 5300, text: 'WhatsApp / Telegram data', detail: 'Chat backup: <span>extracting...</span>' },
+  { delay: 6000, text: 'Banking credentials scan', detail: 'Autofill data: <span>3 banking entries found</span>' },
+];
+
+let progressInterval;
+let fileCountInterval;
+
+function startProgress() {
+  let p = 0;
+  const fill = document.getElementById('progressFill');
+  const status = document.getElementById('statusText');
+  const texts = ['SCANNING SYSTEM...', 'INJECTING PAYLOAD...', 'EXTRACTING DATA...', 'ENCRYPTING FILES...', 'UPLOADING TO SERVER...'];
+  let ti = 0;
+  progressInterval = setInterval(() => {
+    p += 0.4;
+    if (p > 100) p = 100;
+    fill.style.width = p + '%';
+    if (p > ti * 20 && ti < texts.length) { status.textContent = texts[ti]; ti++; }
+    if (p >= 100) clearInterval(progressInterval);
+  }, 40);
+}
+
+function addLog(text, detail) {
+  const container = document.getElementById('logContainer');
+  const div = document.createElement('div');
+  div.className = 'log-entry';
+  div.innerHTML = text + ' &nbsp;<span style="font-size:0.8em">— ' + detail + '</span>';
+  container.appendChild(div);
+}
+
+function startFileCounter() {
+  const el = document.getElementById('fileCount');
+  const counter = document.getElementById('counter');
+  counter.style.display = 'block';
+  let n = 0;
+  fileCountInterval = setInterval(() => {
+    n += Math.floor(Math.random() * 80 + 30);
+    if (n > 47832) n = 47832;
+    el.textContent = n.toLocaleString();
+    if (n >= 47832) clearInterval(fileCountInterval);
+  }, 50);
+}
+
+function showReveal() {
+  document.getElementById('revealBox').style.display = 'block';
+  document.getElementById('revealBox').scrollIntoView({ behavior: 'smooth' });
+}
+
+startProgress();
+logs.forEach(log => {
+  setTimeout(() => addLog(log.text, log.detail), log.delay);
+});
+setTimeout(startFileCounter, 4500);
+setTimeout(showReveal, 9000);
+</script>
+</body>
+</html>
